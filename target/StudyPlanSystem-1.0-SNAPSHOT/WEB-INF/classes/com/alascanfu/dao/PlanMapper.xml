@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alascanfu.dao.PlanMapper">
+
+    <insert id="addPlan" parameterType="com.alascanfu.pojo.Plan">
+        insert into plan(start_date,end_date,context)
+        values (#{startDate},#{endDate},#{context})
+    </insert>
+    <update id="updatePlanById">
+        update plan
+        set start_date = #{startDate},end_date = #{endDate},context = #{context}
+        where plan_id = #{planId}
+    </update>
+
+    <delete id="deletePlanById" parameterType="int">
+        delete from plan
+        where plan_id = #{planId}
+    </delete>
+
+    <select id="queryPlanById" resultType="com.alascanfu.pojo.Plan">
+        select plan_id,start_date,end_date,context from plan where plan_id = #{planId}
+    </select>
+    <select id="queryAllPlan" resultType="com.alascanfu.pojo.Plan">
+        select plan_id,start_date,end_date,context from plan
+    </select>
+
+    <select id="queryDate" resultType="com.alascanfu.pojo.Plan">
+        select plan_id,start_date,end_date,context
+        from plan
+        where
+        STR_TO_DATE(start_date,'%Y-%m-%d') &lt;= STR_TO_DATE(#{startDate},'%Y-%m-%d')
+        and STR_TO_DATE(#{startDate},'%Y-%m-%d') &lt;= STR_TO_DATE(end_date,'%Y-%m-%d')
+    </select>
+
+
+</mapper>
